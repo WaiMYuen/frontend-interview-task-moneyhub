@@ -4,9 +4,9 @@ import React from "react";
 import { Button } from "../../components/button";
 import RowContainer from "../../components/row-container";
 import {
-  AccountHeadline, AccountLabel, AccountList, AccountListItem, AccountSection, InfoText, Inset
+  AccountHeadline, AccountLabel, AccountList, AccountListItem, AccountSection, InfoText, InfoChange, Inset
 } from "./style";
-import ValuationChange from "../valuation-change"
+import { getDateDifference, formatPrice } from './helpers'
 
 const account = {
   uid: "65156cdc-5cfd-4b34-b626-49c83569f35e",
@@ -40,28 +40,33 @@ const Detail = ({}) => {
     mortgage = account.associatedMortgages[0];
   }
 
-  return (
-    <Inset>
+  const EstimatedValue = () => {
+    return (
       <AccountSection>
-        <AccountLabel>Estimated Value</AccountLabel>
-        <AccountHeadline>
-          {new Intl.NumberFormat("en-GB", {
-            style: "currency",
-            currency: "GBP",
-          }).format(account.recentValuation.amount)}
-        </AccountHeadline>
-        <AccountList>
-          <AccountListItem><InfoText>
-            {`Last updated ${format(lastUpdate, "do MMM yyyy")}`}
-          </InfoText></AccountListItem>
-          <AccountListItem><InfoText>
-            {`Next update ${format(
-              add(lastUpdate, { days: account.updateAfterDays }),
-              "do MMM yyyy"
-            )}`}
-          </InfoText></AccountListItem>
-        </AccountList>
-      </AccountSection>
+      <AccountLabel>Estimated Value</AccountLabel>
+      <AccountHeadline>
+        {new Intl.NumberFormat("en-GB", {
+          style: "currency",
+          currency: "GBP",
+        }).format(account.recentValuation.amount)}
+      </AccountHeadline>
+      <AccountList>
+        <AccountListItem><InfoText>
+          {`Last updated ${format(lastUpdate, "do MMM yyyy")}`}
+        </InfoText></AccountListItem>
+        <AccountListItem><InfoText>
+          {`Next update ${format(
+            add(lastUpdate, { days: account.updateAfterDays }),
+            "do MMM yyyy"
+          )}`}
+        </InfoText></AccountListItem>
+      </AccountList>
+    </AccountSection>
+    )
+  }
+
+  const PropertyDetails = () => {
+    return (
       <AccountSection>
         <AccountLabel>Property details</AccountLabel>
         <RowContainer>
@@ -72,7 +77,12 @@ const Detail = ({}) => {
           </AccountList>
         </RowContainer>
       </AccountSection>
-      {mortgage && (
+    )
+  }
+
+  const Mortgage = () => {
+    return (
+      mortgage && (
         <AccountSection>
           <AccountLabel>Mortgage</AccountLabel>
           <RowContainer
@@ -92,8 +102,41 @@ const Detail = ({}) => {
             </AccountList>
           </RowContainer>
         </AccountSection>
-      )}
-      <ValuationChange account={account} />
+      )
+    )
+  }
+
+  const ValuationChange = () => {
+    const originalDate = format(new Date(account.originalPurchasePriceDate), "MMMM do")
+    const changeSincePurchase = account.recentValuation.amount - account.originalPurchasePrice
+    const sincePurchasePercentage = changeSincePurchase / account.originalPurchasePrice * 100
+    const annualAppreciation = (sincePurchasePercentage / getDateDifference(account.originalPurchasePriceDate)).toFixed(2)
+    return (
+      <AccountSection>
+          <AccountLabel>Valuation Changes</AccountLabel>
+          <RowContainer>
+          <AccountList>
+              <AccountListItem><InfoText>Purchased for <b>{formatPrice(account.originalPurchasePrice)}</b> in {originalDate}</InfoText></AccountListItem>
+              <AccountListItem>
+                <InfoText>Since purchase</InfoText>
+                <InfoChange value={changeSincePurchase}>{formatPrice(changeSincePurchase)} ({sincePurchasePercentage}%)</InfoChange>
+              </AccountListItem>
+              <AccountListItem>
+                <InfoText>Annual Appreciation</InfoText>
+                <InfoChange value={annualAppreciation}>{annualAppreciation}%</InfoChange>
+              </AccountListItem>
+          </AccountList>
+          </RowContainer>
+      </AccountSection>
+    )
+  }
+
+  return (
+    <Inset>
+      <EstimatedValue />
+      <PropertyDetails />
+      <Mortgage />
+      <ValuationChange />
       <Button
         // This is a dummy action
         onClick={() => alert("You have navigated to the edit account page")}
