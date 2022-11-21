@@ -1,6 +1,6 @@
 import RowContainer from "../../components/row-container";
 import {
-    AccountLabel, AccountList, AccountListItem, AccountSection, InfoText, Inset
+    AccountLabel, AccountList, AccountListItem, AccountSection, InfoText, InfoChange
   } from "../property-details/style";
 import { format } from 'date-fns'
 import { getDateDifference, formatPrice } from './helpers'
@@ -15,9 +15,9 @@ const ValuationChange = ({ account }) => {
             <AccountLabel>Valuation Changes</AccountLabel>
             <RowContainer>
             <AccountList>
-                <AccountListItem><InfoText>Purchased for {formatPrice(account.originalPurchasePrice)} in {originalDate}</InfoText></AccountListItem>
-                <AccountListItem><InfoText>Since purchase {formatPrice(changeSincePurchase)}</InfoText></AccountListItem>
-                <AccountListItem><InfoText>Annual Appreciation {annualAppreciation}%</InfoText></AccountListItem>
+                <AccountListItem><InfoText>Purchased for <b>{formatPrice(account.originalPurchasePrice)}</b> in {originalDate}</InfoText></AccountListItem>
+                <AccountListItem><InfoText>Since purchase</InfoText><InfoChange value={changeSincePurchase}>{formatPrice(changeSincePurchase)} ({sincePurchasePercentage}%)</InfoChange></AccountListItem>
+                <AccountListItem><InfoText>Annual Appreciation</InfoText><InfoChange value={annualAppreciation}>{annualAppreciation}%</InfoChange></AccountListItem>
             </AccountList>
             </RowContainer>
       </AccountSection>

@@ -37,6 +37,7 @@ export const AccountSection = styled.div`
 
 export const AccountListItem = styled.div`
   display: flex;
+  justify-content: space-between;
 
   &:not(:last-of-type) {
     margin-bottom: ${(props) => props.theme.space.m};
@@ -46,3 +47,9 @@ export const AccountListItem = styled.div`
 export const Inset = styled.div`
   padding: 0 ${(props) => props.theme.space.m};
 `;
+
+export const InfoChange = styled.div`
+  padding: 1px 20px;
+  border-radius: 50px;
+  background-color: ${(props) => props.value < 0 ? props.theme.colors.red.default : props.theme.colors.green.default};
+`
