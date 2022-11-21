@@ -6,7 +6,7 @@ import RowContainer from "../../components/row-container";
 import {
   AccountHeadline, AccountLabel, AccountList, AccountListItem, AccountSection, InfoText, Inset
 } from "./style";
-
+import ValuationChange from "../valuation-change"
 
 const account = {
   uid: "65156cdc-5cfd-4b34-b626-49c83569f35e",
@@ -93,6 +93,7 @@ const Detail = ({}) => {
           </RowContainer>
         </AccountSection>
       )}
+      <ValuationChange account={account} />
       <Button
         // This is a dummy action
         onClick={() => alert("You have navigated to the edit account page")}
