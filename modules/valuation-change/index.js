@@ -2,25 +2,22 @@ import RowContainer from "../../components/row-container";
 import {
     AccountLabel, AccountList, AccountListItem, AccountSection, InfoText, Inset
   } from "../property-details/style";
-import { format, getYear } from 'date-fns'
+import { format } from 'date-fns'
+import { getDateDifference } from './helpers'
 
 const ValuationChange = ({ account }) => {
     const originalPrice = new Intl.NumberFormat("en-GB", {
         style: "currency",
         currency: "GBP",
       }).format(account.originalPurchasePrice)
-    const dateOfPurchase = new Date(account.originalPurchasePriceDate)
-    const originalDate = format(dateOfPurchase, "MMMM do")
-    const yearOfPurchase = getYear(dateOfPurchase)
-    const currentYear = new Date().getFullYear()
-    const dateDifference = currentYear - yearOfPurchase 
+    const originalDate = format(new Date(account.originalPurchasePriceDate), "MMMM do")
     const changeSincePurchase = account.recentValuation.amount - account.originalPurchasePrice
     const formattedChangeSincePurchase = new Intl.NumberFormat("en-GB", {
         style: "currency",
         currency: "GBP",
       }).format(changeSincePurchase)
     const sincePurchasePercentage = changeSincePurchase / account.originalPurchasePrice * 100
-    const annualAppreciation = sincePurchasePercentage / dateDifference
+    const annualAppreciation = sincePurchasePercentage / getDateDifference(account.originalPurchasePriceDate)
     return (
         <AccountSection>
             <AccountLabel>Valuation Changes</AccountLabel>
