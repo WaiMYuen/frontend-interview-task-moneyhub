@@ -32,7 +32,12 @@ Consider opportunities to reduce repetition in the code and increase legibility
 We also ask that you update the readme with answers to the following questions 
 
 1. Given more time, what other changes you would have liked to make?
+
+Anwser: Ideally would've wanted to populate and style the left hand side nav bar with some dummy links, at least to fill in that blank space. As well as some sort of padding top and bottom to neaten up the page a bit. As it is now, the full height nav bar and the fact that the 'Property details' title is very close to the top of the window make it look tacky
+
 2. What UX or design improvements or alterations might you suggest? These can be to existing components or completely new ideas.
+
+Anwser: Would suggest to make the page more responsive for browser/mobile viewing. For example for browser viewing, could have the information presented in a single row on individual tiles rather than have loads of unsued space on the right side, and keep the data presented as a column for mobile users.
 
 ----
 
