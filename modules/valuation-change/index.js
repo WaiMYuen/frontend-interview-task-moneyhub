@@ -9,7 +9,7 @@ const ValuationChange = ({ account }) => {
     const originalDate = format(new Date(account.originalPurchasePriceDate), "MMMM do")
     const changeSincePurchase = account.recentValuation.amount - account.originalPurchasePrice
     const sincePurchasePercentage = changeSincePurchase / account.originalPurchasePrice * 100
-    const annualAppreciation = sincePurchasePercentage / getDateDifference(account.originalPurchasePriceDate)
+    const annualAppreciation = (sincePurchasePercentage / getDateDifference(account.originalPurchasePriceDate)).toFixed(2)
     return (
         <AccountSection>
             <AccountLabel>Valuation Changes</AccountLabel>
